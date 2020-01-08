@@ -1,9 +1,9 @@
 #pragma once
-#include "Resources.h"
 #include <SFML/Network.hpp>
-#include <random>
+#include <SFML/Graphics.hpp>
+#include <cassert>
 #include <iostream>
-#include "Snake.h"
+#include "Player.h"
 
 class Game
 {
@@ -52,18 +52,11 @@ private:
 	float windowWidth;
 	float windowHeight;
 	sf::RenderWindow window;
-	sf::Vector2i mousePosition;
-	bool mouseLeftDown;
-	bool lastMouseLeftDown;
-	float frameCount;
 	int fps = 0;
-	float tickSpeed;
-	sf::Vector2f center;
-	float fpsConstant = 60.0f;
-	sf::Time timeConstant;
 	int ID;
-	//sf::Font font;		
-	//sf::Text text;
+	sf::Vector2f mousePosition;
+	bool lastMouseLeftDown;
+	bool mouseLeftDown;
 
 	// Variables to hold temporary information generated from socket functions.
 	sf::Socket::Status status;
@@ -78,24 +71,15 @@ private:
 	sf::UdpSocket udpSocket;
 	sf::TcpSocket tcpSocket;
 
-	// Setting up a buffer to store raw data of different types.
-	static const int BUFFERSIZE = sizeof(char) * 2 + sizeof(float) * 4 + sizeof(int) * 5 + sizeof(bool);
-	char cBuffer[BUFFERSIZE];
-	float* fBuffer = (float*)& cBuffer[2];
-	int* iBuffer = (int*)& fBuffer[4];
-	bool* bBuffer = (bool*)& iBuffer[5];
-
 	// Time variables.
 	int startTime;
 	sf::Clock clock;
 	sf::Time time;
 	float sendInterval = 0.05f;
 
-	// Map of all the snakes in the game.
-	std::map<int, Snake*> snakes;
+	// Map of all the players in the game.
+	std::map<int, Player*> players;
 
-	// Direction vector of the client's mouse.
-	sf::Vector2f direction;
-	bool boosting;
+	int target = -1;
 };
 
